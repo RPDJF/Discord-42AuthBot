@@ -1,0 +1,29 @@
+services:
+  42authbot:
+    build: .
+    container_name: 42authbot-node
+    depends_on:
+      - mongodb
+    environment:
+      MONGO_USERNAME: root
+      MONGO_PASSWORD: rootpass
+      MONGO_DB: 42authbot
+      MONGO_URI: mongodb://42authbot-mongodb:27017
+    ports:
+      - "3000:3000"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./.env:/usr/src/app/.env # can be setup in environment variables instead
+    restart: always
+  mongodb:
+    image: mongo:latest
+    container_name: 42authbot-mongodb
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpass
+      MONGO_INITDB_DATABASE: 42authbot
+      MONGO_PORT: 27017
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      #- ./mongo-data:/data/db

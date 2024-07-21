@@ -1,10 +1,40 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, Interaction } = require("discord.js");
+const db = require("../utils/db");
 
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("login")
 		.setDescription("Login into 42 network"),
+	/**
+	 * 
+	 * @param {Interaction} interaction 
+	 */
 	async execute(interaction) {
-		await interaction.reply("Login command executed!");
+		const state = `${interaction.user.id}_${Math.random().toString(36).substring(7)}`;
+
+		const guildDoc = await db.getData("guilds", interaction.guild.id);
+		if (!guildDoc.users) {
+			guildDoc.users = [{
+				id: interaction.user.id,
+			}];
+		}
+		let userDoc = guildDoc.users.find(u => u.id === interaction.user.id);
+		if (!userDoc) {
+			userDoc = {
+				id: interaction.user.id,
+			};
+			guildDoc.users.push(userDoc);
+		}
+		userDoc.state = state;
+		await db.writeData("guilds", interaction.guild.id, guildDoc);
+		const stateDoc = await db.getData("states", state);
+		stateDoc.guild = interaction.guild.id;
+		stateDoc.user = interaction.user.id;
+		await db.writeData("states", state, stateDoc);
+
+		interaction.reply({
+			content: `Please click this link to login: [Login](https://api.intra.42.fr/oauth/authorize?client_id=${process.env.AUTH_UID}&redirect_uri=${process.env.AUTH_REDIRECT_URI}&response_type=code&state=${state})`,
+			ephemeral: true,
+		});
 	},
 }

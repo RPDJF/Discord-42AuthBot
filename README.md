@@ -45,7 +45,7 @@ A simple wrapper, `db.js`, is used for database interactions, primarily designed
 ## Getting Started 🚀
 
 ### Prerequisites 📋
-- Docker 🐳 or node 20.15.1 installed on your system
+- Docker 🐳 or node 20.15.1 installed on your system and a mongodb instance
 - A Discord bot token (obtained from the [Discord Developer Portal](https://discord.com/developers/applications))
 - A 42 API client ID and secret (obtained from the [42 API](https://profile.intra.42.fr/oauth/applications))
 
@@ -66,6 +66,9 @@ docker logs 42authbot-node
 ```
 
 ### Using Node.js
+
+If using Node.js, you'll need to have a MongoDB instance running somewhere accessible to the bot.
+You may want to consider using the docker method instead if you're not familiar with MongoDB, it will do everything for you.
 
 1. Ensure you have Node.js version `20.15.1` installed on your system.
 2. Copy the `.env.example` file to `.env` and fill in the necessary details.

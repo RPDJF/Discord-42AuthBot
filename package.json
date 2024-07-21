@@ -1,0 +1,24 @@
+{
+  "name": "discord-42authbot",
+  "version": "1.0.0",
+  "description": "A simple poc to bring 42 Network login into discord",
+  "main": "src/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rpdjf/discord-42authbot.git"
+  },
+  "author": "RPDJF",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rpdjf/discord-42authbot/issues"
+  },
+  "homepage": "https://github.com/rpdjf/discord-42authbot#readme",
+  "dependencies": {
+    "discord.js": "^14.15.3",
+    "dotenv": "^16.4.5"
+  }
+}

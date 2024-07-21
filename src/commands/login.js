@@ -25,8 +25,14 @@ module.exports = {
 			};
 			guildDoc.users.push(userDoc);
 		}
+		// If user is already logged in, delete the old state
+		if (userDoc.state) {
+			await db.deleteData("states", userDoc.state);
+		}
 		userDoc.state = state;
+		// Write the data to the database in guilds collection
 		await db.writeData("guilds", interaction.guild.id, guildDoc);
+		// Get and write the state to the database in states collection
 		const stateDoc = await db.getData("states", state);
 		stateDoc.guild = interaction.guild.id;
 		stateDoc.user = interaction.user.id;
